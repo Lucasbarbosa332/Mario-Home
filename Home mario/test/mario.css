@@ -1,0 +1,130 @@
+/* style.css */
+
+* {
+    z-index: 9999;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-image: url('/test/img/556704.jpg');
+    overflow: hidden; /* Remove a barra de rolagem */
+}
+
+#game-container {
+    margin-top: -900px;
+    position: relative;
+    width: 100vw; /* Ocupa toda a largura da janela */
+    height: 100vh; /* Ocupa toda a altura da janela */
+    overflow: hidden;
+}
+
+#character {
+    position: absolute;
+    width: 100px; /* Novo tamanho do Mario */
+    height: 100px;
+    background-image: url('/test/img/mario-twerk-mario.gif');
+    background-size: cover;
+    bottom: 0;
+    left: 50px;
+    transition: all 0.1s;
+}
+
+.pipe {
+    position: absolute;
+    width: 150px;
+    height: 100px;
+
+    background-image: url('/test/img/pip.png'); /* Imagem do cano */
+    background-size: cover; /* Ajusta a imagem para cobrir todo o cano */
+    bottom: 0; /* Mantém os canos no chão */
+    cursor: pointer;
+}
+
+#pipe-button {
+    position: absolute;
+    bottom: 100px; /* Posição logo acima do cano */
+    padding: 30px 60px;
+    font-size: 16px;
+    background-color: #fffffffd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+footer {
+    position: fixed; /* Fixar o footer na parte inferior da tela */
+    left: 0;
+    bottom: 0; /* Posiciona o footer na parte inferior */
+    width: 100%; /* Faz o footer ocupar toda a largura da tela */
+    height: 450px; /* Ajuste a altura conforme necessário */
+    display: flex; /* Usar flexbox para centralizar a imagem, se necessário */
+    justify-content: center; /* Centraliza horizontalmente */
+    background-color: transparent; /* Fundo transparente, ou altere para outra cor se preferir */
+    z-index: 1; /* Garante que o footer fique acima de outros elementos */
+}
+
+#footer-image {
+    height: 100%; /* Faz a imagem ocupar toda a altura do footer */
+    object-fit: cover; /* Faz a imagem cobrir o espaço disponível, mantendo as proporções */
+}
+
+
+#flying-dragon {
+    position: absolute;
+    width: 300px; /* Ajuste o tamanho conforme necessário */
+    animation: flyAcross 10s linear infinite; /* Animação do dragão */
+}
+
+@keyframes flyAcross {
+    0% {
+        right: -150px; /* Começa fora da tela à direita */
+        top: 50%; /* Posiciona verticalmente */
+    }
+    100% {
+        right: 100%; /* Termina fora da tela à esquerda */
+        top: 50%; /* Mantém a mesma posição vertical */
+    }
+}
+#walking-crepe {
+    position: absolute;
+    width: 30px; /* Ajuste o tamanho conforme necessário */
+    animation: walkAcross 30s linear infinite; /* Animação do crepe */
+    bottom: 20px; /* Ajuste a altura conforme necessário */
+}
+
+@keyframes walkAcross {
+    0% {
+        left: -100px; /* Começa fora da tela à esquerda */
+    }
+    100% {
+        left: 100%; /* Termina fora da tela à direita */
+    }
+}
+.cloud {
+    position: absolute;
+    width: 100px; /* Ajuste o tamanho conforme necessário */
+    animation: moveCloud 20s linear infinite; /* Animação mais lenta */
+    top: 50%; /* Posiciona verticalmente */
+}
+
+@keyframes moveCloud {
+    0% {
+        left: -100px; /* Começa fora da tela à esquerda */
+    }
+    100% {
+        left: 100%; /* Termina fora da tela à direita */
+    }
+}
+.coin {
+    margin-right: 8px; /* Ajuste o valor conforme necessário */
+    position: absolute;
+    width: 50px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+    bottom: 100px; /* Ajuste a altura conforme necessário */
+}

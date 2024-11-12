@@ -1,0 +1,141 @@
+const character = document.getElementById('character');
+const pipes = document.querySelectorAll('.pipe');
+const pipeButton = document.getElementById('pipe-button');
+let positionX = window.innerWidth / 2 - 50; // Centraliza na largura da tela
+let positionY = 0;
+
+// Dimensões atualizadas de Mario
+const characterWidth = 100;
+const characterHeight = 100;
+
+// Caminhos dos GIFs
+const runningRightGif = '/test/img/Mario.gif'; // GIF em movimento para a direita
+const runningLeftGif = '/test/img/marioleft.gif'; // GIF em movimento para a esquerda
+
+// Caminhos dos GIFs adicionais para troca de teclas
+const gifs = [
+    '/test/img/mario-luigi.gif', // GIF 1
+    '/test/img/gif2.gif', // GIF 2
+    '/test/img/gif3.gif', // GIF 3
+    '/test/img/gif4.gif', // GIF 4
+    '/test/img/gif5.gif', // GIF 5
+    '/test/img/gif6.gif', // GIF 6
+    '/test/img/gif7.gif', // GIF 7
+    '/test/img/gif8.gif', // GIF 8
+    '/test/img/gif9.gif', // GIF 9
+    // Adicione até o GIF 29 ou mais conforme necessário
+];
+
+// Função para detectar a tecla pressionada
+document.addEventListener('keydown', (event) => {
+    switch (event.key) {
+        case 'd': // Mover para a direita
+            positionX += 10;
+            character.style.backgroundImage = `url('${runningRightGif}')`; // Troca para o GIF de correr à direita
+            break;
+        case 'a': // Mover para a esquerda
+            positionX -= 10;
+            character.style.backgroundImage = `url('${runningLeftGif}')`; // Troca para o GIF de correr à esquerda
+            break;
+        case 'w': // Simular pulo
+            positionY = 100; // Altera a posição Y para simular o pulo
+            break;
+        case '1': // Troca para o GIF 1
+            character.style.backgroundImage = `url('${gifs[0]}')`;
+            break;
+        case '2': // Troca para o GIF 2
+            character.style.backgroundImage = `url('${gifs[1]}')`;
+            break;
+        case '3': // Troca para o GIF 3
+            character.style.backgroundImage = `url('${gifs[2]}')`;
+            break;
+        case '4': // Troca para o GIF 4
+            character.style.backgroundImage = `url('${gifs[3]}')`;
+            break;
+        case '5': // Troca para o GIF 5
+            character.style.backgroundImage = `url('${gifs[4]}')`;
+            break;
+        case '6': // Troca para o GIF 6
+            character.style.backgroundImage = `url('${gifs[5]}')`;
+            break;
+        case '7': // Troca para o GIF 7
+            character.style.backgroundImage = `url('${gifs[6]}')`;
+            break;
+        case '8': // Troca para o GIF 8
+            character.style.backgroundImage = `url('${gifs[7]}')`;
+            break;
+        case '9': // Troca para o GIF 9
+            character.style.backgroundImage = `url('${gifs[8]}')`;
+            break;
+        // Adicione mais casos conforme necessário
+    }
+    updatePosition();
+
+    if (event.key === 'w') {
+        checkPipeInteraction();
+    }
+});
+
+// Função para atualizar a posição do personagem
+function updatePosition() {
+    // Garante que o personagem não saia da tela
+    if (positionX < 0) positionX = 0; // Não permite que o Mario saia pela esquerda
+    if (positionX + characterWidth > window.innerWidth) positionX = window.innerWidth - characterWidth; // Não permite que o Mario saia pela direita
+    
+    character.style.left = `${positionX}px`;
+    character.style.bottom = `${positionY}px`;
+
+    if (positionY > 0) {
+        // Simular gravidade após o pulo
+        setTimeout(() => {
+            positionY = 0;
+            character.style.bottom = `${positionY}px`;
+            // Retorna para a imagem parada, controlada pelo CSS
+        }, 300);
+    }
+}
+
+// Função para verificar colisão entre Mario e o cano
+function checkPipeInteraction() {
+    let interactionFound = false;
+    pipes.forEach(pipe => {
+        const pipeRect = pipe.getBoundingClientRect();
+        const characterRect = character.getBoundingClientRect();
+        
+        // Verificação de colisão considerando a altura e largura de Mario e do cano
+        if (
+            characterRect.right > pipeRect.left && // Borda direita de Mario além da borda esquerda do cano
+            characterRect.left < pipeRect.right && // Borda esquerda de Mario antes da borda direita do cano
+            characterRect.bottom <= pipeRect.top + pipeRect.height // Pés de Mario ao nível do topo do cano
+        ) {
+            interactionFound = true;
+            const page = pipe.getAttribute('data-page');
+            
+            // Configura o botão para aparecer com o nome da página
+            pipeButton.style.display = 'block';
+            pipeButton.textContent = `Ir para ${page}`;
+            pipeButton.onclick = () => {
+                alert(`Indo para a página ${page}`);
+                window.location.href = `/${page}.html`;
+            };
+            
+            // Centraliza o botão acima do cano
+            pipeButton.style.left = `${pipeRect.left + pipeRect.width / 2 - pipeButton.offsetWidth / 2}px`;
+        }
+    });
+    
+    // Se não houver interação, esconde o botão
+    if (!interactionFound) {
+        pipeButton.style.display = 'none';
+    }
+}
+
+// Listener para verificar se as teclas estão soltas
+document.addEventListener('keyup', (event) => {
+    if (event.key === 'd' || event.key === 'a') {
+        // Quando o usuário solta a tecla, volta para a imagem parada, controlada pelo CSS
+        character.style.backgroundImage = ''; // Esta linha pode ser removida, pois o CSS controla a imagem parada
+    }
+});
+s
+
